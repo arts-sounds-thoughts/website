@@ -1,0 +1,35 @@
+---
+import { songs } from '../data/musical';
+
+interface Props {
+  only?: string[];
+}
+const { only } = Astro.props;
+const list = only ? songs.filter((s) => only.includes(s.id)) : songs;
+---
+<ol class="songs">
+  {list.map((song, i) => (
+    <li class="song" id={song.id}>
+      <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      <div>
+        <h3>{song.title}</h3>
+        <p>{song.text}</p>
+        <audio controls preload="none" src={song.file}>
+          <a href={song.file}>{song.title} (MP3)</a>
+        </audio>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .songs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  .song {
+    display: grid; grid-template-columns: auto 1fr; gap: 1.25rem;
+    background: var(--bg-raised); padding: 1.5rem; border-left: 6px solid var(--red);
+  }
+  .num { font-family: var(--display); font-weight: 700; font-size: 2.5rem; line-height: 1; color: var(--red); }
+  h3 { margin-bottom: 0.25rem; }
+  p { margin: 0 0 1rem; color: var(--muted); }
+  audio { width: 100%; height: 2.5rem; }
+</style>

@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Songs from '../components/Songs.astro';
+import YouTube from '../components/YouTube.astro';
+import Donate from '../components/Donate.astro';
+import drawing from '../assets/img/wir-wollen-mehr-geld-tariftango-transparent.png';
+import band from '../assets/img/ast-promo-final.jpg';
+import piano from '../assets/img/piano.png';
+import groupPhoto from '../assets/img/aufzeichnung-gruppenbild.jpg';
+import { premiere, trailer, recording, site } from '../data/site';
+---
+<Base>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Ein Projekt von Arts, Sounds &amp; Thoughts e.V.</p>
+        <h1 class="red">Das<br /><span class="nowrap">Uni-Musical.</span></h1>
+        <p class="hero-tagline display">Wo Wissen und Träume sich vereinen.</p>
+        <hr class="rule" />
+        <p class="hero-meta">
+          <strong>Premiere {premiere.datesShort}</strong><br />
+          <a href={premiere.venueUrl} rel="noopener">{premiere.venue}</a>, Berlin
+        </p>
+        <div class="btn-row">
+          <a class="btn" href="/das-uni-musical/">Zum Musical</a>
+          <a class="btn btn--ghost" href="#hoerproben">Reinhören</a>
+        </div>
+      </div>
+      <Image class="hero-drawing" src={drawing} alt="Bleistiftzeichnung: eine Person mit Akkordeon, die Augen geschlossen, ganz in der Musik" widths={[400, 700, 900]} sizes="(min-width: 52rem) 40vw, 90vw" loading="eager" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split split--wide-media">
+      <div>
+        <p class="eyebrow">Die Handlung</p>
+        <h2>Worum geht es?</h2>
+        <p class="lead">Eine Erstsemester-Studentin im Aufbruch, eine Professorin mit Baby, ein Dekan mit Interessenskonflikt, eine Klimaaktivistin mit großen Idealen, ein <abbr title="Wissenschaftlicher Mitarbeiter">WiMi</abbr> kurz vor dem Burnout und eine langjährige Verwaltungsangestellte präsentieren ihre persönliche Geschichte, aber auch die großen Linien des Universitätslebens.</p>
+        <p class="muted">Die Handlung ist frei erfunden (dachten wir zu Beginn der Proben).</p>
+        <div class="btn-row">
+          <a class="btn btn--ghost" href="/mitwirkende/">Mitwirkende</a>
+        </div>
+      </div>
+      <Image src={band} alt="Ensemble und Band des Uni-Musicals auf der Bühne mit Keyboards, Saxophon und Mikrofonen" widths={[480, 960]} sizes="(min-width: 52rem) 55vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section" id="hoerproben">
+    <div class="wrap split split--reverse">
+      <div>
+        <p class="eyebrow">Aufnahmen aus einer Preview im Januar 2025</p>
+        <h2>Hörproben</h2>
+        <Songs />
+      </div>
+      <Image class="sticky-media" src={groupPhoto} alt="Gruppenfoto aller Mitwirkenden auf der Bühne vor dem roten Vorhang" widths={[640, 960, 1280]} sizes="(min-width: 52rem) 45vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Trailer</p>
+      <h2>Der Trailer</h2>
+      <YouTube id={trailer.youtubeId} title={trailer.title} poster={piano} label="Trailer abspielen" />
+      {recording.youtubeId && (
+        <div class="btn-row">
+          <a class="btn" href="/das-uni-musical/#aufzeichnung">Ganze Aufzeichnung ansehen</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section verein" id="verein">
+    <div class="wrap">
+      <div class="prose">
+        <p class="eyebrow">Über uns</p>
+        <h2>Arts, Sounds &amp; Thoughts e.V.</h2>
+        <p class="lead">Arts, Sounds &amp; Thoughts e.V. ist ein gemeinnütziger Verein in Berlin. {site.tagline}</p>
+        <p>Unser Hauptprojekt ist <a href="/das-uni-musical/">Das Uni-Musical</a>, das im Juli 2025 im {premiere.venue} Premiere feierte.</p>
+        <p>Neue Projekte und Termine kündigen wir hier an. Fragen, Ideen oder Lust mitzumachen? Schreib uns an <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <Donate />
+
+  <section class="section disclaimer">
+    <div class="wrap">
+      <p class="muted">Disclaimer: Dies ist ein Projekt des gemeinnützigen Vereins <em>Arts, Sounds &amp; Thoughts e.V.</em> in Berlin. Die Geschichte und die Charaktere sind fiktiv. Vergleiche oder Ähnlichkeiten zu realen Personen oder Geschehnissen sind zufällig.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(60rem 40rem at 85% 10%, rgb(226 0 26 / 0.18), transparent 60%),
+      var(--bg);
+    padding-block: clamp(2.5rem, 7vw, 6rem) 0;
+  }
+  .hero-grid { display: grid; gap: 1rem; align-items: end; }
+  @media (min-width: 52rem) { .hero-grid { grid-template-columns: 1.1fr 1fr; } }
+  .hero-text { padding-bottom: clamp(2rem, 6vw, 5rem); }
+  .hero h1 { margin-bottom: 0.25em; }
+  .hero-tagline { font-size: clamp(1.25rem, 2.6vw, 1.8rem); text-transform: none; font-weight: 500; margin: 0; }
+  .hero-meta { font-size: 1.15rem; margin: 0; }
+  .hero-drawing { width: 100%; max-width: 38rem; margin-inline: auto; filter: drop-shadow(0 0 40px rgb(0 0 0 / 0.6)); }
+
+  .sticky-media { position: sticky; top: 6rem; }
+  @media (max-width: 52rem) { .sticky-media { position: static; } }
+
+  .verein { background: var(--bg-raised); }
+
+  .disclaimer { padding-block: 2rem; font-size: 0.95rem; }
+</style>

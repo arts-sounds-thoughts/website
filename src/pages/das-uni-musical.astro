@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Songs from '../components/Songs.astro';
+import YouTube from '../components/YouTube.astro';
+import Lyric from '../components/Lyric.astro';
+import poster from '../assets/img/poster-hochformat.jpg';
+import posterTitle from '../assets/img/poster-titel.png';
+import band from '../assets/img/ast-promo-final.jpg';
+import preview from '../assets/img/preview-h0104.jpg';
+import ensemble from '../assets/img/gawi.jpg';
+import piano from '../assets/img/piano.png';
+import recordingPoster from '../assets/img/aufzeichnung-gruppenbild.jpg';
+import { premiere, trailer, recording } from '../data/site';
+import { characters, lyricBauchgefuehl } from '../data/musical';
+---
+<Base
+  title="Das Uni-Musical"
+  description="Das Uni-Musical – wo Wissen und Träume sich vereinen. Premiere am 11. + 12. Juli 2025 im Café Theater Schalotte, Berlin. Handlung, Hörproben, Trailer und Mitwirkende."
+  ogImage={posterTitle}
+>
+  <section class="section intro">
+    <div class="wrap split split--wide-media">
+      <div>
+        <p class="eyebrow">Arts, Sounds &amp; Thoughts e.V. präsentiert</p>
+        <h1 class="red">Das<br /><span class="nowrap">Uni-Musical.</span></h1>
+        <p class="lead display tagline">Wo Wissen und Träume sich vereinen.</p>
+        <hr class="rule" />
+        <dl class="facts">
+          <div><dt>Premiere</dt><dd>{premiere.dates.join(' · ')}</dd></div>
+          <div><dt>Ort</dt><dd><a href={premiere.venueUrl} rel="noopener">{premiere.venue}</a><br />{premiere.address}</dd></div>
+          <div><dt>Zeit</dt><dd>{premiere.times}</dd></div>
+        </dl>
+      </div>
+      <Image class="poster" src={poster} alt="Plakat: Das Uni-Musical. Wo Wissen und Träume sich vereinen. Café Theater Schalotte, Fr 11.07.2025 und Sa 12.07.2025" widths={[360, 540, 720]} sizes="(min-width: 52rem) 30rem, 90vw" loading="eager" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split split--wide-media">
+      <div>
+        <p class="eyebrow">Die Handlung</p>
+        <h2>Worum geht es?</h2>
+        <p class="lead">Sechs Menschen, eine Universität:</p>
+        <ul class="cast-list">
+          {characters.map((c) => <li>{c}</li>)}
+        </ul>
+        <p>Sie präsentieren ihre persönliche Geschichte, aber auch die großen Linien des Universitätslebens.</p>
+        <p class="muted">Die Handlung ist frei erfunden (dachten wir zu Beginn der Proben).</p>
+      </div>
+      <Image src={band} alt="Ensemble und Band des Uni-Musicals auf der Bühne" widths={[480, 960]} sizes="(min-width: 52rem) 55vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section lyric-section" aria-label="Liedzitat">
+    <div class="wrap">
+      <Lyric lines={lyricBauchgefuehl} source="aus „Bauchgefühl“" />
+    </div>
+  </section>
+
+  <section class="section" id="hoerproben">
+    <div class="wrap">
+      <p class="eyebrow">Aufnahmen aus einer Preview im Januar 2025</p>
+      <h2>Hörproben</h2>
+      <Songs />
+    </div>
+  </section>
+
+  <section class="section" id="trailer">
+    <div class="wrap">
+      <p class="eyebrow">Trailer</p>
+      <h2>Reinschauen</h2>
+      <YouTube id={trailer.youtubeId} title={trailer.title} poster={piano} label="Trailer abspielen" />
+    </div>
+  </section>
+
+  {recording.youtubeId && (
+    <section class="section" id="aufzeichnung">
+      <div class="wrap">
+        <p class="eyebrow">Das ganze Stück</p>
+        <h2>Die komplette Aufzeichnung</h2>
+        <p class="lead">Verpasst oder noch einmal erleben? Hier gibt es das Uni-Musical in voller Länge.</p>
+        <YouTube id={recording.youtubeId} title={recording.title} poster={recordingPoster} label="Aufzeichnung abspielen" />
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Bilder</p>
+      <h2>Das Team</h2>
+      <div class="gallery">
+        <Image src={preview} alt="Sechs Mitwirkende nach der Preview, eine Person mit Saxophon, mehrere mit roten Schals" widths={[600, 1024, 1536]} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Image src={ensemble} alt="Gruppenfoto des Ensembles in schwarzen AS&T-T-Shirts" widths={[480, 735]} sizes="(min-width: 52rem) 40vw, 100vw" />
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="/mitwirkende/">Alle Mitwirkenden</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { background: radial-gradient(50rem 35rem at 90% 0%, rgb(226 0 26 / 0.16), transparent 60%); }
+  .tagline { text-transform: none; font-weight: 500; }
+  .poster { width: 100%; max-width: 30rem; margin-inline: auto; box-shadow: 0 30px 80px rgb(0 0 0 / 0.7); }
+  .facts { display: grid; gap: 1rem; margin: 0; }
+  .facts dt { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem; color: var(--muted); }
+  .facts dd { margin: 0; font-size: 1.2rem; }
+  .cast-list { list-style: none; padding: 0; margin: 0 0 1.25rem; display: grid; gap: 0.35rem; }
+  .cast-list li { padding-left: 1.25rem; position: relative; font-size: 1.15rem; }
+  .cast-list li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.6rem; height: 4px; background: var(--red); }
+  .lyric-section { overflow: hidden; }
+  .gallery { display: grid; gap: 1rem; }
+  .gallery :global(img) { width: 100%; height: auto; }
+  /* Spalten im Verhältnis der Seitenverhältnisse (2048/1152 und 735/517): beide Fotos gleich hoch, nichts wird beschnitten */
+  @media (min-width: 52rem) { .gallery { grid-template-columns: 1.7778fr 1.4217fr; } }
+</style>

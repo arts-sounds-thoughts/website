@@ -1,0 +1,118 @@
+---
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logo from '../assets/img/ast.png';
+import ogDefault from '../assets/img/poster-titel.png';
+import { getImage } from 'astro:assets';
+import { site, nav } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: ImageMetadata;
+}
+
+const {
+  title,
+  description = 'Arts, Sounds & Thoughts e.V. ist ein gemeinnütziger Verein in Berlin. Unser Projekt: Das Uni-Musical – wo Wissen und Träume sich vereinen.',
+  ogImage = ogDefault,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · ${site.shortName}` : `${site.shortName} – ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = await getImage({ src: ogImage, width: 1200, format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site);
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0b0b0b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip btn" href="#inhalt">Zum Inhalt springen</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a href="/" class="brand" aria-label="Arts, Sounds & Thoughts – Startseite">
+          <Image src={logo} alt="AS&T" width={110} loading="eager" />
+        </a>
+        <nav aria-label="Hauptnavigation">
+          <ul>
+            {nav.map((item) => (
+              <li><a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inhalt">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div>
+          <p class="display footer-name">{site.name}</p>
+          <p class="muted">Gemeinnütziger Verein in {site.city}. {site.tagline}</p>
+        </div>
+        <div>
+          <p class="eyebrow">Kontakt</p>
+          <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        </div>
+        <div>
+          <p class="eyebrow">Rechtliches</p>
+          <p><a href="/impressum/">Impressum</a><br /><a href="/datenschutz/">Datenschutz</a></p>
+        </div>
+      </div>
+      <div class="wrap">
+        <p class="muted small">© {new Date().getFullYear()} {site.name}</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(11 11 11 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 40rem) { .site-header { position: static; } }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4rem; flex-wrap: wrap; }
+  .brand img { width: 88px; }
+  nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; list-style: none; margin: 0; padding: 0.5rem 0; }
+  nav a {
+    font-family: var(--display);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  nav a[aria-current='page'] { color: var(--red); }
+
+  .site-footer { border-top: 6px solid var(--red); padding-block: 3rem 1.5rem; margin-top: 0; background: #050505; }
+  .footer-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-bottom: 2rem; }
+  .footer-name { font-size: 1.4rem; margin-bottom: 0.25rem; }
+  .small { font-size: 0.9rem; }
+</style>

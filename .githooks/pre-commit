@@ -1,0 +1,4 @@
+#!/bin/sh
+# Blockiert Commits mit Secrets. Aktivieren: git config core.hooksPath .githooks
+command -v gitleaks >/dev/null 2>&1 || { echo "gitleaks fehlt (brew install gitleaks)"; exit 1; }
+exec gitleaks protect --staged --config .gitleaks.toml --redact -v

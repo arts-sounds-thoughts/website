@@ -1,0 +1,32 @@
+---
+interface Props {
+  lines: string[];
+  source: string;
+}
+const { lines, source } = Astro.props;
+---
+<figure class="lyric">
+  <blockquote>
+    {lines.map((line, i) => <span style={`--tilt:${(i % 3) - 1}`}>{line}</span>)}
+  </blockquote>
+  <figcaption>{source}</figcaption>
+</figure>
+
+<style>
+  .lyric { margin: 0; position: relative; padding-block: 2rem; }
+  .lyric::before {
+    content: ''; position: absolute; left: -10%; right: -10%; top: 55%; height: 3.5rem;
+    background: var(--red); transform: rotate(-2deg); z-index: 0;
+  }
+  blockquote { position: relative; z-index: 1; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+  blockquote span {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(1rem, 2.4vw, 1.4rem);
+    padding: 0.15em 0.7em; text-align: center;
+    transform: rotate(calc(var(--tilt) * 0.6deg));
+  }
+  blockquote span:first-child::before { content: '»'; }
+  blockquote span:last-child::after { content: '«'; }
+  figcaption { position: relative; z-index: 1; text-align: center; margin-top: 1.25rem; font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-size: 0.9rem; }
+</style>

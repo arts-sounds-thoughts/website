@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { ensemble, team } from '../data/musical';
+
+// Mehrere Personen in einem Eintrag: Zeilenumbruch zwischen den Personen, nicht mitten im Namen
+const people = (names: string) => names.split(/( & |, )/);
+const isSeparator = (part: string) => / & |, /.test(part);
+---
+<Base title="Mitwirkende" description="Ensemble, Band und Kreativteam des Uni-Musicals von Arts, Sounds & Thoughts e.V.">
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Das Uni-Musical</p>
+      <h1>Mitwirkende</h1>
+
+      <h2 class="group">Ensemble &amp; Band</h2>
+      <ul class="people">
+        {ensemble.map((p) => (
+          <li><span class="name">{people(p.name).map((part) => (isSeparator(part) ? part : <span class="person">{part}</span>))}</span><span class="role">{p.role}</span></li>
+        ))}
+      </ul>
+
+      <h2 class="group">Kreativteam</h2>
+      <ul class="people">
+        {team.map((p) => (
+          <li><span class="name">{people(p.name).map((part) => (isSeparator(part) ? part : <span class="person">{part}</span>))}</span><span class="role">{p.role}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 { font-size: clamp(2.5rem, 7vw, 5rem); }
+  .group { font-size: clamp(1.4rem, 3vw, 2rem); margin-top: 3rem; color: var(--red); }
+  .people {
+    list-style: none; margin: 0; padding: 0 1px 1px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+  .people li {
+    background: var(--bg); padding: 1.25rem 1.25rem 1.1rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+    border: 1px solid var(--line); margin: 0 -1px -1px 0;
+  }
+  .name { font-family: var(--display); font-weight: 500; font-size: 1.35rem; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.2; }
+  .person { display: inline-block; }
+  .role { color: var(--muted); }
+</style>

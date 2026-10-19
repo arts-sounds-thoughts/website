@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arts-sounds-thoughts.de/sitemap-index.xml

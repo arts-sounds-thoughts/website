@@ -1,0 +1,16 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "iban-de"
+description = "Deutsche IBAN (außer dem öffentlichen Spendenkonto)"
+regex = '''DE\d{2}[ ]?\d{4}[ ]?\d{4}[ ]?\d{4}[ ]?\d{4}[ ]?\d{2}'''
+
+[[rules]]
+id = "private-key-file"
+description = "SSH/PEM private key"
+regex = '''-----BEGIN [A-Z ]*PRIVATE KEY-----'''
+
+[allowlist]
+description = "Öffentliches Spendenkonto des Vereins"
+regexes = ['''DE62 8306 5408 0005 4363 62''']

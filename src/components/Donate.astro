@@ -1,0 +1,26 @@
+---
+import { donation, site } from '../data/site';
+---
+<section class="section" id="unterstuetzen">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Unterstützen</p>
+      <h2>Wir freuen uns über jede Unterstützung <span class="red" aria-hidden="true">❤</span></h2>
+      <p class="lead">Arts, Sounds &amp; Thoughts e.V. ist gemeinnützig. Mit einer Spende ermöglichst du neue Produktionen, Proben, Technik und Räume.</p>
+      <p>Eine Spendenbescheinigung kann via <a href={`mailto:${site.email}?subject=Spendenbescheinigung`}>{site.email}</a> angefragt werden.</p>
+    </div>
+    <dl class="bank">
+      <div><dt>Empfänger</dt><dd>{donation.recipient}</dd></div>
+      <div><dt>IBAN</dt><dd class="mono">{donation.iban}</dd></div>
+      <div><dt>BIC</dt><dd class="mono">{donation.bic}</dd></div>
+      <div><dt>Bank</dt><dd>{donation.bank}</dd></div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .bank { margin: 0; background: var(--bg-raised); border-top: 6px solid var(--red); padding: 1.75rem; display: grid; gap: 1rem; }
+  .bank dt { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.85rem; color: var(--muted); }
+  .bank dd { margin: 0; font-size: 1.2rem; font-weight: 600; }
+  .mono { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; user-select: all; }
+</style>
